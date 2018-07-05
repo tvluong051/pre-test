@@ -22,9 +22,11 @@ import java.math.BigDecimal;
  */
 public class CustomerAccountTest {
 
-    private static final BigDecimal INITIAL_AMOUNT = BigDecimal.TEN;
-    private static final BigDecimal POSITIVE_AMOUNT = new BigDecimal("42");
-    private static final BigDecimal NEGATIVE_AMOUNT = new BigDecimal("-5");
+    private static final BigDecimal INITIAL_POSITIVE_AMOUNT = BigDecimal.TEN;
+    private static final BigDecimal POSITIVE_AMOUNT = new BigDecimal("42.0");
+    private static final BigDecimal NEGATIVE_AMOUNT = new BigDecimal("-5.0");
+    private static final BigDecimal LEGALLY_WITHDRAW_AMOUNT = new BigDecimal("20.0");
+    private static final BigDecimal ILLEGALLY_WITHDRAW_AMOUNT = new BigDecimal("60.0");
 
     Account customerAccount;
     AccountRule rule;
@@ -35,6 +37,7 @@ public class CustomerAccountTest {
     @Before
     public void setUp() throws Exception {
         customerAccount = new CustomerAccount();
+        rule = new CustomerAccountRule();
     }
     
     /**
@@ -56,31 +59,33 @@ public class CustomerAccountTest {
 
     @Test
     public void testAddPositiveAmountNotEmptyAccount() {
-        customerAccount = new CustomerAccount(INITIAL_AMOUNT);
+        customerAccount = new CustomerAccount(INITIAL_POSITIVE_AMOUNT);
         customerAccount.add(POSITIVE_AMOUNT);
-        assertEquals(INITIAL_AMOUNT.add(POSITIVE_AMOUNT), customerAccount.getBalance());
+        assertEquals(INITIAL_POSITIVE_AMOUNT.add(POSITIVE_AMOUNT), customerAccount.getBalance());
     }
 
     @Test
     public void testMultipleAddPositiveAmountEmptyAccount() {
-        customerAccount.add(INITIAL_AMOUNT);
+        customerAccount.add(INITIAL_POSITIVE_AMOUNT);
         customerAccount.add(POSITIVE_AMOUNT);
-        assertEquals(INITIAL_AMOUNT.add(POSITIVE_AMOUNT), customerAccount.getBalance());
+        assertEquals(INITIAL_POSITIVE_AMOUNT.add(POSITIVE_AMOUNT), customerAccount.getBalance());
     }
 
     @Test
     public void testAddNegativeAmountDoNotChangeBalance() {
-        customerAccount = new CustomerAccount(INITIAL_AMOUNT);
+        customerAccount = new CustomerAccount(INITIAL_POSITIVE_AMOUNT);
         customerAccount.add(NEGATIVE_AMOUNT);
-        assertEquals(INITIAL_AMOUNT, customerAccount.getBalance());
+        assertEquals(INITIAL_POSITIVE_AMOUNT, customerAccount.getBalance());
     }
     
     /**
      * Tests that an illegal withdrawal throws the expected exception.
      * Use the logic contained in CustomerAccountRule; feel free to refactor the existing code.
      */
-    @Test
-    public void testWithdrawAndReportBalanceIllegalBalance() {
+    @Test(expected = IllegalBalanceException.class)
+    public void testWithdrawAndReportBalanceIllegalBalance() throws IllegalBalanceException {
+        customerAccount.add(POSITIVE_AMOUNT);
+        customerAccount.withdrawAndReportBalance(ILLEGALLY_WITHDRAW_AMOUNT, rule);
     }
     
     // Also implement missing unit tests for the above functionalities.
