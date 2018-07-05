@@ -7,6 +7,8 @@ import org.junit.*;
 
 import com.priceminister.account.implementation.*;
 
+import java.math.BigDecimal;
+
 
 /**
  * Please create the business code, starting from the unit tests below.
@@ -36,7 +38,7 @@ public class CustomerAccountTest {
      */
     @Test
     public void testAccountWithoutMoneyHasZeroBalance() {
-        fail("not yet implemented");
+        assertEquals(BigDecimal.ZERO, customerAccount.getBalance());
     }
     
     /**
@@ -44,7 +46,6 @@ public class CustomerAccountTest {
      */
     @Test
     public void testAddPositiveAmount() {
-        fail("not yet implemented");
     }
     
     /**
@@ -53,7 +54,6 @@ public class CustomerAccountTest {
      */
     @Test
     public void testWithdrawAndReportBalanceIllegalBalance() {
-        fail("not yet implemented");
     }
     
     // Also implement missing unit tests for the above functionalities.
