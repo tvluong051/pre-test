@@ -13,6 +13,10 @@ public class CustomerAccount implements Account {
         this.balance = BigDecimal.ZERO;
     }
 
+    public CustomerAccount(BigDecimal initialAmount) {
+        this.balance = initialAmount;
+    }
+
     public void add(BigDecimal addedAmount) {
         // TODO Auto-generated method stub
     }
