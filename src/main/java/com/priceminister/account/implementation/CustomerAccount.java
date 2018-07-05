@@ -41,8 +41,9 @@ public class CustomerAccount implements Account {
             this.balance = resultingBalance;
             LOGGER.info("Amount withdrawed. New balance: {}", resultingBalance);
         } else {
-            LOGGER.error("Illegaly withdraw amount");
-            throw new IllegalBalanceException(this.balance);
+            IllegalBalanceException illegalBalanceException = new IllegalBalanceException(this.balance);
+            LOGGER.error(illegalBalanceException.toString());
+            throw illegalBalanceException;
         }
         return this.balance;
     }
