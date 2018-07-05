@@ -29,8 +29,13 @@ public class CustomerAccount implements Account {
 
     public BigDecimal withdrawAndReportBalance(BigDecimal withdrawnAmount, AccountRule rule)
     		throws IllegalBalanceException {
-        // TODO Auto-generated method stub
-        return null;
+        BigDecimal resultingBalance = this.balance.subtract(withdrawnAmount);
+        if(rule.withdrawPermitted(resultingBalance)) {
+            this.balance = resultingBalance;
+        } else {
+            throw new IllegalBalanceException(this.balance);
+        }
+        return this.balance;
     }
 
 }
