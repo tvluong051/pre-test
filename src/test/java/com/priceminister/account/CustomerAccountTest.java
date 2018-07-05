@@ -24,6 +24,7 @@ public class CustomerAccountTest {
 
     private static final BigDecimal INITIAL_AMOUNT = BigDecimal.TEN;
     private static final BigDecimal POSITIVE_AMOUNT = new BigDecimal("42");
+    private static final BigDecimal NEGATIVE_AMOUNT = new BigDecimal("-5");
 
     Account customerAccount;
     AccountRule rule;
@@ -65,6 +66,13 @@ public class CustomerAccountTest {
         customerAccount.add(INITIAL_AMOUNT);
         customerAccount.add(POSITIVE_AMOUNT);
         assertEquals(INITIAL_AMOUNT.add(POSITIVE_AMOUNT), customerAccount.getBalance());
+    }
+
+    @Test
+    public void testAddNegativeAmountDoNotChangeBalance() {
+        customerAccount = new CustomerAccount(INITIAL_AMOUNT);
+        customerAccount.add(NEGATIVE_AMOUNT);
+        assertEquals(INITIAL_AMOUNT, customerAccount.getBalance());
     }
     
     /**
