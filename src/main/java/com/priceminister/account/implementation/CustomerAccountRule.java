@@ -21,11 +21,13 @@ import java.math.BigDecimal;
 
 public class CustomerAccountRule implements AccountRule {
 
+    private static final BigDecimal MINIMUM_ALLOWED_BALANCE = BigDecimal.ZERO;
+
     /* (non-Javadoc)
      * @see com.priceminister.account.AccountRule#withdrawPermitted(java.lang.Double)
      */
     public boolean withdrawPermitted(BigDecimal resultingAccountBalance) {
-        return BigDecimal.ZERO.compareTo(resultingAccountBalance) <= 0;
+        return MINIMUM_ALLOWED_BALANCE.compareTo(resultingAccountBalance) <= 0;
     }
 
 }
