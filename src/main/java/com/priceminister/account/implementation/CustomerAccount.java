@@ -18,7 +18,9 @@ public class CustomerAccount implements Account {
     }
 
     public void add(BigDecimal addedAmount) {
-        this.balance = this.balance.add(addedAmount);
+        if(BigDecimal.ZERO.compareTo(addedAmount) <= 0) {
+            this.balance = this.balance.add(addedAmount);
+        }
     }
 
     public BigDecimal getBalance() {
