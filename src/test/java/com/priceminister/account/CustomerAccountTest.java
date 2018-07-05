@@ -21,7 +21,10 @@ import java.math.BigDecimal;
  * 
  */
 public class CustomerAccountTest {
-    
+
+    private static final BigDecimal INITIAL_AMOUNT = BigDecimal.TEN;
+    private static final BigDecimal POSITIVE_AMOUNT = new BigDecimal("42");
+
     Account customerAccount;
     AccountRule rule;
 
@@ -45,7 +48,23 @@ public class CustomerAccountTest {
      * Adds money to the account and checks that the new balance is as expected.
      */
     @Test
-    public void testAddPositiveAmount() {
+    public void testAddPositiveAmountEmptyAccount() {
+        customerAccount.add(POSITIVE_AMOUNT);
+        assertEquals(POSITIVE_AMOUNT, customerAccount.getBalance());
+    }
+
+    @Test
+    public void testAddPositiveAmountNotEmptyAccount() {
+        customerAccount = new CustomerAccount(INITIAL_AMOUNT);
+        customerAccount.add(POSITIVE_AMOUNT);
+        assertEquals(INITIAL_AMOUNT.add(POSITIVE_AMOUNT), customerAccount.getBalance());
+    }
+
+    @Test
+    public void testMultipleAddPositiveAmountEmptyAccount() {
+        customerAccount.add(INITIAL_AMOUNT);
+        customerAccount.add(POSITIVE_AMOUNT);
+        assertEquals(INITIAL_AMOUNT.add(POSITIVE_AMOUNT), customerAccount.getBalance());
     }
     
     /**
