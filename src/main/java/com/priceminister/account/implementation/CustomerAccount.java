@@ -18,7 +18,7 @@ public class CustomerAccount implements Account {
     }
 
     public void add(BigDecimal addedAmount) {
-        // TODO Auto-generated method stub
+        this.balance = this.balance.add(addedAmount);
     }
 
     public BigDecimal getBalance() {
