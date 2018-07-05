@@ -1,11 +1,15 @@
 package com.priceminister.account.implementation;
 
 import com.priceminister.account.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 
 
 public class CustomerAccount implements Account {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerAccount.class);
 
     private BigDecimal balance;
 
@@ -18,8 +22,10 @@ public class CustomerAccount implements Account {
     }
 
     public void add(BigDecimal addedAmount) {
+        LOGGER.info("Request to add amount: {}", addedAmount);
         if(BigDecimal.ZERO.compareTo(addedAmount) <= 0) {
             this.balance = this.balance.add(addedAmount);
+            LOGGER.info("Amount added");
         }
     }
 
@@ -29,10 +35,13 @@ public class CustomerAccount implements Account {
 
     public BigDecimal withdrawAndReportBalance(BigDecimal withdrawnAmount, AccountRule rule)
     		throws IllegalBalanceException {
+        LOGGER.info("Request to withdraw amount: {}", withdrawnAmount);
         BigDecimal resultingBalance = this.balance.subtract(withdrawnAmount);
         if(rule.withdrawPermitted(resultingBalance)) {
             this.balance = resultingBalance;
+            LOGGER.info("Amount withdrawed. New balance: {}", resultingBalance);
         } else {
+            LOGGER.error("Illegaly withdraw amount");
             throw new IllegalBalanceException(this.balance);
         }
         return this.balance;
