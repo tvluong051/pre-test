@@ -87,6 +87,13 @@ public class CustomerAccountTest {
         customerAccount.add(POSITIVE_AMOUNT);
         customerAccount.withdrawAndReportBalance(ILLEGALLY_WITHDRAW_AMOUNT, rule);
     }
+
+    @Test
+    public void testWithdrawAndLegalBalance() throws IllegalBalanceException {
+        customerAccount.add(POSITIVE_AMOUNT);
+        BigDecimal actualBalance = customerAccount.withdrawAndReportBalance(LEGALLY_WITHDRAW_AMOUNT, rule);
+        assertEquals(POSITIVE_AMOUNT.subtract(LEGALLY_WITHDRAW_AMOUNT), actualBalance);
+    }
     
     // Also implement missing unit tests for the above functionalities.
 
